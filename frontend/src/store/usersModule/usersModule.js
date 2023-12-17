@@ -6,6 +6,8 @@ const usersModule = {
   state: {
     users: [],
     user: null,
+    errors: null,
+    error: null,
   },
 
   actions: {
@@ -41,10 +43,46 @@ const usersModule = {
       }
     },
 
+    async updateUser({ commit }, user) {
+      try {
+        const response = await api.put(
+          `/users/${user.id}`,
+          {
+            name: user.name,
+            email: user.email,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            },
+          }
+        );
+        const updatedUser = response.data.data;
+        console.log(response);
+        commit("setUser", updatedUser);
+      } catch (error) {
+        const errors = error.response.data.errors;
+        const e = error.response.data.message;
+
+        commit("setErrors", errors);
+        commit("setError", e);
+
+        setTimeout(() => {
+          commit("setErrors", null);
+          commit("setError", null);
+        }, 5000);
+      }
+    },
+
     async deleteUser({ commit }, id) {
       try {
-        await api.delete(`/users/${id}`);
-        commit("deleteUser", id);
+        await api.delete(`/users/${id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        });
+        commit("setUser", null);
+        localStorage.removeItem("access_token");
       } catch (error) {
         console.log(error);
       }
@@ -58,6 +96,14 @@ const usersModule = {
 
     setUser(state, user) {
       state.user = user;
+    },
+
+    setErrors(state, errors) {
+      state.errors = errors;
+    },
+
+    setError(state, error) {
+      state.error = error;
     },
   },
 };

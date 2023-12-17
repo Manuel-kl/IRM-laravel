@@ -1,8 +1,8 @@
 <template>
     <NavBar />
-    <ViewUser />
+    <AdminList />
 </template>
 <script setup>
 import NavBar from "@/components/NavBar.vue";
-import ViewUser from "@/components/Users/ViewUser.vue";
+import AdminList from "@/components/Users/AdminList.vue";
 </script>

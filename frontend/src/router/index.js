@@ -18,9 +18,19 @@ const routes = [
     component: () => import("../views/Auth/RegisterView.vue"),
   },
   {
-    path: "/view-user/:id",
-    name: "view-user",
-    component: () => import("../views/Users/UserView.vue"),
+    path: "/settings/:id",
+    name: "settings",
+    component: () => import("../views/Users/SettingsView.vue"),
+  },
+  {
+    path: "/users",
+    name: "users",
+    component: () => import("../views/Users/UsersView.vue"),
+  },
+  {
+    path: "/admins",
+    name: "admins",
+    component: () => import("../views/Users/AdminsView.vue"),
   },
 ];
 

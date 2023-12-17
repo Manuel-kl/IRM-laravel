@@ -54,6 +54,8 @@ php artisan migrate
 ```
 
 Run database seeder (To seed default admin user):
+email: admin@example.com
+password: password
 
 ```sh
 php artisan db:seed

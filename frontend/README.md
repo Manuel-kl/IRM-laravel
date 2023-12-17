@@ -16,3 +16,6 @@ npm run serve
 ```
 npm run build
 ```
+# Default Admin logins
+email: admin@example.com
+password: password

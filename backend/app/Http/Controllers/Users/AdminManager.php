@@ -20,7 +20,9 @@ class AdminManager extends Controller
 
         $this->authorize('viewAdmins', $user);
 
-        $admins = User::where('role', 'admin')->get();
+        $admins = User::where('role', 'admin')
+            ->with('admin')
+            ->get();
 
         return response()->json([
             'success' => true,

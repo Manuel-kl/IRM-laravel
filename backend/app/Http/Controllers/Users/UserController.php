@@ -12,19 +12,11 @@ class UserController extends Controller
 {
     /**
      * Display a listing of all users (admins and users)
-     * managesAdmins policy is used to check if the user can manage admins.
+     * isAdmin method is used to check if the user is an admin.
      */
     public function index(): JsonResponse
     {
-        $user = auth()->user();
-
         $users =  User::where('role', '!=', 'admin')->get();
-
-        $canManageAdmins = $this->authorize('managesAdmins', $user);
-
-        if ($canManageAdmins) {
-            $users = User::all();
-        }
 
         return response()->json([
             'success' => true,
@@ -40,17 +32,23 @@ class UserController extends Controller
     public function show(User $user)
     {
         $loggedInUser = auth()->user();
+        $isAdmin = $loggedInUser->isAdmin();
 
-        $isAdmin =  $this->authorize('managesTheirAccount', $user, $loggedInUser);
-        $isOwner = $this->authorize('managesTheirAccount', $user);
-
-        if ($isAdmin || $isOwner) {
+        if ($isAdmin) {
             return response()->json([
                 'success' => true,
                 'message' => 'User retrieved successfully',
                 'data' => $user,
             ]);
         }
+
+        $this->authorize('managesTheirAccount', $user, $loggedInUser);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User retrieved successfully',
+            'data' => $user,
+        ]);
     }
 
     /**

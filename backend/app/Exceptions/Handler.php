@@ -34,7 +34,7 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'message' => 'Resource not found.',
                 'status' => 404
-            ]);
+            ], 404);
         }
 
         if ($e instanceof \Illuminate\Validation\ValidationException) {
@@ -42,21 +42,21 @@ class Handler extends ExceptionHandler
                 'message' => 'Validation error.',
                 'errors' => $e->errors(),
                 'status' => 422
-            ]);
+            ], 422);
         }
 
         if ($e instanceof \Illuminate\Auth\Access\AuthorizationException) {
             return response()->json([
                 'message' => 'Unauthorized.',
                 'status' => 401
-            ]);
+            ], 404);
         }
 
         if ($e instanceof \Illuminate\Auth\AuthenticationException) {
             return response()->json([
                 'message' => 'Unauthenticated.',
                 'status' => 401
-            ]);
+            ], 401);
         }
 
         if ($e instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
@@ -64,7 +64,7 @@ class Handler extends ExceptionHandler
                 'message' => 'Resource not found.',
                 'error' => $e->getMessage(),
                 'status' => 404
-            ]);
+            ], 404);
         }
 
         if ($e instanceof \Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException) {
@@ -72,7 +72,7 @@ class Handler extends ExceptionHandler
                 'message' => 'Method not allowed.',
                 'error' => 'Allowed method is ' . implode(', ', $e->getHeaders()),
                 'status' => 405
-            ]);
+            ], 405);
         }
 
         return parent::render($request, $e);

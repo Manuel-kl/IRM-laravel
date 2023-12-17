@@ -1,4 +1,6 @@
-# frontend
+# User management
+# About
+ -This project presents an exemplary integration with the user management API, demonstrating how adminis and regular users can  carry out distinct CRUD operations according to their assigned roles.
 
 ## Project setup
 ```
@@ -14,6 +16,3 @@ npm run serve
 ```
 npm run build
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
